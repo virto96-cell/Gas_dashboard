@@ -1,0 +1,88 @@
+:root{
+  --bg:#f3f5f8; --card:#fff; --ink:#18212f; --muted:#5d6b80; --line:#dde3ec;
+  --accent:#1f5fa8; --accent-soft:#e7f0fb; --fc:#fff6e5; --fc-ink:#9a5b00;
+  --navy:#12263f; --side-w:272px;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);font-size:14px;line-height:1.4}
+.layout{display:grid;grid-template-columns:var(--side-w) minmax(0,1fr);min-height:100vh}
+
+/* ---- левая панель управления ---- */
+.side{background:var(--navy);color:#dbe5f3;padding:14px 14px 12px;position:sticky;top:0;height:100vh;overflow:hidden;display:flex;flex-direction:column;gap:2px}
+.brand{display:flex;align-items:center;gap:12px;padding:0 4px 10px;border-bottom:1px solid #263d5c;margin-bottom:8px}
+.brand .logo{flex:none;border-radius:12px}
+.brand b{display:block;font-size:15px;letter-spacing:.14em}
+.brand span{display:block;font-size:11px;letter-spacing:.14em;color:#8fa6c6;margin-top:2px}
+.side h4{margin:10px 6px 4px;font-size:11px;letter-spacing:.16em;color:#8fa6c6;font-weight:600}
+.tabs{display:flex;flex-direction:column;gap:2px}
+.tab{background:none;border:1px solid transparent;border-left:3px solid transparent;border-radius:8px;padding:7px 12px;font-size:14px;color:#c4d2e6;cursor:pointer;text-align:left}
+.tab:hover{background:#1a3452;color:#fff}
+.tab.active{background:#1f4a7a;border-left-color:#7db4f0;color:#fff;font-weight:600}
+.side .fgroup{display:flex;flex-direction:column;gap:8px;padding:0 4px}
+.side label{display:flex;flex-direction:column;gap:3px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#8fa6c6;font-weight:600}
+.side select{width:100%;max-width:none;padding:5px 8px}
+.filters-hint{display:none;margin:10px 6px 0;color:#8fa6c6;font-size:11px;line-height:1.35}
+
+/* ---- шапка ---- */
+.top{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:18px 28px;background:var(--navy);color:#fff;border-left:1px solid #263d5c}
+.top h1{margin:0;font-size:22px;font-weight:600}
+.top p{margin:4px 0 0;color:#b7c6dc;font-size:13px}
+.top-actions{display:flex;align-items:center;gap:12px}
+.badge{border:1px solid #f0b34a;color:#f0b34a;border-radius:4px;padding:3px 8px;font-size:12px;letter-spacing:.04em;white-space:nowrap}
+.btn{background:var(--accent);color:#fff;border:0;border-radius:6px;padding:9px 16px;font-size:14px;cursor:pointer;white-space:nowrap}
+.btn:hover{background:#17497f}
+select{font:inherit;padding:7px 8px;border:1px solid #c5cedb;border-radius:6px;background:#fff;color:var(--ink);max-width:260px}
+.inline-filter{display:inline-flex;align-items:center;gap:8px;color:var(--muted);font-size:13px;margin:-6px 0 12px;flex-wrap:wrap}
+
+main{padding:20px 28px}
+.panel{display:none}.panel.active{display:block}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;min-width:0}
+.card h2{margin:0 0 16px;font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--navy)}
+.card h2.caps{text-transform:uppercase;letter-spacing:.05em;font-size:16px;font-weight:700;color:var(--navy)}
+.s4{grid-column:span 4}.s5{grid-column:span 5}.s6{grid-column:span 6}.s7{grid-column:span 7}.s8{grid-column:span 8}.s12{grid-column:span 12}
+.chart{width:100%}
+.chart.small{height:300px}.chart.mid{height:300px}.chart.tall{height:420px}.chart.xtall{height:560px}.chart.sk{height:260px}.chart.maph{height:520px}.three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.sub{margin:0 0 10px;font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);font-weight:600}.detail table th,.detail table td{padding:4px 8px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.map-wrap{display:grid;grid-template-columns:minmax(0,1fr) 440px;gap:16px;align-items:start}
+.detail{border-left:1px solid var(--line);padding-left:14px;margin-left:-26px;position:relative;z-index:2;background:var(--card)}
+.detail h3{margin:0 0 12px;font-size:13px;text-transform:uppercase;letter-spacing:.03em}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+th:first-child,td:first-child,td.l,th.l{text-align:left}
+th{background:#f6f8fb;color:var(--muted);font-weight:600;position:sticky;top:0}
+tr.total td{font-weight:600;background:#f6f8fb}
+th.fc,td.fc{background:var(--fc);color:var(--fc-ink)}
+tr.click{cursor:pointer}tr.click:hover td{background:var(--accent-soft)}
+tr.sel td{background:var(--accent-soft);font-weight:600}
+td.wrap{white-space:normal}
+.tbl-scroll{overflow:auto;max-height:420px}.tbl-scroll.tall-scroll{max-height:540px}
+.unit{color:var(--muted);font-size:12px}
+.tip{position:fixed;z-index:20;background:#fff;border:1px solid #c5cedb;box-shadow:0 4px 14px rgba(0,0,0,.15);border-radius:6px;padding:8px 10px;font-size:12px;pointer-events:none;max-width:280px}
+.tsrc{color:#7a8799}.fc-tag{color:var(--fc-ink);font-style:italic}
+.error{background:#fdecec;border:1px solid #e9a3a3;color:#7a1c1c;padding:12px 16px;border-radius:8px;margin-bottom:14px}
+footer{padding:18px 28px 28px;color:var(--muted);font-size:12px;text-align:center;border-top:1px solid var(--line);margin-top:8px}
+
+@media (min-width:1700px){
+  body{font-size:15px}
+  th,td,table{font-size:14px}
+  .card h2{font-size:16px}
+  .map-wrap{grid-template-columns:minmax(0,1fr) 500px}
+  .chart.maph{height:600px}.chart.small{height:360px}.chart.mid{height:340px}.chart.sk{height:300px}.chart.tall{height:480px}
+  :root{--side-w:300px}
+  .tab{font-size:15px}
+}
+@media (max-width:1200px){
+  :root{--side-w:220px}
+  main,.top{padding-left:16px;padding-right:16px}
+  .grid>.card{grid-column:span 12}
+  .three{grid-template-columns:1fr}
+}
+@media (max-width:860px){
+  .layout{grid-template-columns:1fr}
+  .side{position:static;height:auto;overflow:visible}
+  .tabs{flex-direction:row;flex-wrap:wrap}
+  .two,.map-wrap{grid-template-columns:1fr}.detail{border-left:0;padding-left:0}
+  .top{flex-wrap:wrap}
+}

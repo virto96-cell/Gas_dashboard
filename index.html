@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Управление реализации газа</title>
+<link rel="icon" type="image/svg+xml" href="assets/logo-gray.svg">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="layout">
+<aside class="side" aria-label="Панель управления">
+  <div class="brand">
+    <img class="logo" src="assets/logo-gray.svg" alt="Логотип «Газовый горизонт»" width="44" height="44">
+    <div><b>ГАЗОВЫЙ ГОРИЗОНТ</b><span>АНАЛИТИЧЕСКИЙ ДЭШБОРД</span></div>
+  </div>
+
+  <h4>РАЗДЕЛЫ</h4>
+  <nav class="tabs" id="tabs" role="tablist">
+    <button class="tab active" data-tab="overview" role="tab">Обзор</button>
+    <button class="tab" data-tab="regions" role="tab">Регионы РФ</button>
+    <button class="tab" data-tab="production" role="tab">Добыча</button>
+    <button class="tab" data-tab="europe" role="tab">Европа</button>
+    <button class="tab" data-tab="china" role="tab">Китай</button>
+    <button class="tab" data-tab="ca" role="tab">Средняя Азия</button>
+    <button class="tab" data-tab="lng" role="tab">СПГ-контракты</button>
+    <button class="tab" data-tab="prices" role="tab">Цены</button>
+  </nav>
+
+  <h4>ФИЛЬТРЫ</h4>
+  <section class="fgroup" aria-label="Фильтры">
+    <label>Год <select id="f-year"></select></label>
+    <label>Направление
+      <select id="f-dir">
+        <option value="all">Все направления</option>
+        <option value="west">Запад</option>
+        <option value="east">Восток</option>
+        <option value="south">Юг (Средняя Азия)</option>
+      </select>
+    </label>
+    <label>Тип газа
+      <select id="f-gas">
+        <option value="all">Все</option>
+        <option value="pipe">Трубопроводный</option>
+        <option value="lng">СПГ</option>
+      </select>
+    </label>
+    <label>Регион РФ (карта) <select id="f-region"></select></label>
+  </section>
+  <p class="filters-hint">Год — карта, потоки, таблицы. Направление и тип газа — диаграмма потоков и цены. Компания — в блоке добычи.</p>
+</aside>
+
+<div class="content">
+<header class="top">
+  <div class="top-title">
+    <h1>Управление реализации газа</h1>
+    <p>Подразделения по газу и энергетике</p>
+  </div>
+  <div class="top-actions">
+    <span class="badge">ДЕМО-ДАННЫЕ</span>
+    <button id="btn-export" class="btn" type="button">Выгрузить в Excel</button>
+  </div>
+</header>
+
+<main>
+<div id="error" class="error" hidden></div>
+
+<!-- ============ ОБЗОР (9 блоков) ============ -->
+<section class="panel active" id="panel-overview">
+  <div class="grid">
+    <article class="card s12">
+      <h2 class="caps">1. КАРТА РФ: ВНУТРЕННЕЕ ПОТРЕБЛЕНИЕ ГАЗА ПО РЕГИОНАМ</h2>
+      <div class="map-wrap">
+        <div id="ov-map" class="chart maph"></div>
+        <aside class="detail">
+          <h3 id="ov-detail-title"></h3>
+          <div id="ov-detail-chart" class="chart maph"></div>
+        </aside>
+      </div>
+    </article>
+    <article class="card s12">
+      <h2>2. Экспортные потоки газа из РФ (диаграмма Санкея)</h2>
+      <div class="two"><div id="ov-sankey-pipe" class="chart sk"></div>
+      <div id="ov-sankey-lng" class="chart sk"></div></div>
+    </article>
+
+    
+    
+
+    <article class="card s12">
+      <h2>3. Добыча газа в РФ по компаниям (годовые данные)</h2>
+      <div class="inline-filter">Компания <select class="js-company"></select></div>
+      <div id="ov-prod" class="chart tall"></div>
+    </article>
+    <article class="card s12">
+      <h2>4. Цены: факт и прогноз</h2>
+      <div class="two">
+        <div id="ov-pr-pipe" class="chart mid"></div>
+        <div id="ov-pr-lng" class="chart mid"></div>
+      </div>
+    </article>
+
+    <article class="card s12">
+      <h2>5. Европа: ресурс газа и потребление по отраслям</h2>
+      <div class="two">
+        <div><h3 class="sub">Ресурс газа: собственная добыча + импорт (трубопроводный, СПГ), млрд куб. м</h3><div id="ov-europe" class="chart tall"></div></div>
+        <div><h3 class="sub">Потребление по отраслям, млрд куб. м</h3><div id="ov-eu-sect" class="chart tall"></div></div>
+      </div>
+    </article>
+    <article class="card s12">
+      <h2>6. Китай: ресурс газа и потребление по отраслям</h2>
+      <div class="two">
+        <div><h3 class="sub">Ресурс газа: собственная добыча + импорт (трубопроводный, СПГ), млрд куб. м</h3><div id="ov-china" class="chart tall"></div></div>
+        <div><h3 class="sub">Потребление по отраслям, млрд куб. м</h3><div id="ov-cn-sect" class="chart tall"></div></div>
+      </div>
+    </article>
+    
+  </div>
+</section>
+
+<!-- ============ РЕГИОНЫ РФ ============ -->
+<section class="panel" id="panel-regions">
+  <div class="grid">
+    <article class="card s12">
+      <h2>Внутреннее потребление газа по субъектам РФ</h2>
+      <div class="map-wrap">
+        <div id="tb-map" class="chart maph"></div>
+        <aside class="detail">
+          <h3 id="tb-detail-title"></h3>
+          <div id="tb-detail-chart" class="chart small"></div>
+          <div id="tb-detail-table"></div>
+        </aside>
+      </div>
+    </article>
+    <article class="card s12">
+      <h2>Таблица по регионам</h2>
+      <div id="tb-reg-table" class="tbl-scroll tall-scroll"></div>
+    </article>
+  </div>
+</section>
+
+<!-- ============ ДОБЫЧА ============ -->
+<section class="panel" id="panel-production">
+  <div class="grid">
+    <article class="card s12">
+      <h2>Добыча газа в РФ по компаниям, млрд куб. м (факт и прогноз)</h2>
+      <div class="inline-filter">Компания <select class="js-company"></select></div>
+      <div id="tb-prod-stack" class="chart tall"></div>
+    </article>
+    <article class="card s7">
+      <h2>Доля компании в квартальной добыче, %</h2>
+      <div id="tb-prod-share" class="chart mid"></div>
+    </article>
+    <article class="card s5">
+      <h2>Годовая добыча: год × компания, млрд куб. м</h2>
+      <div id="tb-prod-table" class="tbl-scroll"></div>
+    </article>
+  </div>
+</section>
+
+<!-- ============ ЕВРОПА ============ -->
+<section class="panel" id="panel-europe">
+  <div class="grid">
+    <article class="card s6"><h2>Потребление и импорт газа, млрд куб. м</h2><div id="tb-eu-a" class="chart mid"></div></article>
+    <article class="card s6"><h2>Структура импорта: трубопроводный и СПГ, млрд куб. м</h2><div id="tb-eu-b" class="chart mid"></div></article>
+    <article class="card s6"><h2>Доля России в импорте газа Европы, %</h2><div id="tb-eu-c" class="chart mid"></div></article>
+    <article class="card s6"><h2>Собственная добыча газа в Европе, млрд куб. м</h2><div id="tb-eu-d" class="chart mid"></div></article>
+    <article class="card s6"><h2>Потребление газа по отраслям, млрд куб. м</h2><div id="tb-eu-e" class="chart mid"></div></article>
+    <article class="card s12"><h2>Таблица показателей</h2><div id="tb-eu-table" class="tbl-scroll"></div></article>
+  </div>
+</section>
+
+<!-- ============ КИТАЙ ============ -->
+<section class="panel" id="panel-china">
+  <div class="grid">
+    <article class="card s6"><h2>Потребление и импорт газа Китая, млрд куб. м</h2><div id="tb-cn-a" class="chart mid"></div></article>
+    <article class="card s6"><h2>Доля России в трубопроводном импорте Китая, %</h2><div id="tb-cn-b" class="chart mid"></div></article>
+    <article class="card s6"><h2>Собственная добыча газа в Китае, млрд куб. м</h2><div id="tb-cn-c" class="chart mid"></div></article>
+    <article class="card s6"><h2>Потребление газа по отраслям, млрд куб. м</h2><div id="tb-cn-d" class="chart mid"></div></article>
+    <article class="card s12"><h2>Таблица показателей</h2><div id="tb-cn-table" class="tbl-scroll"></div></article>
+  </div>
+</section>
+
+<!-- ============ СРЕДНЯЯ АЗИЯ ============ -->
+<section class="panel" id="panel-ca">
+  <div class="grid">
+    <article class="card s7"><h2>Экспорт РФ в страны Средней Азии, млрд куб. м</h2><div id="tb-ca-chart" class="chart tall"></div></article>
+    <article class="card s5"><h2>Таблица по странам</h2><div id="tb-ca-table" class="tbl-scroll"></div></article>
+    <article class="card s6"><h2>Собственная добыча газа по странам, млрд куб. м</h2><div id="tb-ca-prod" class="chart mid"></div></article>
+    <article class="card s6"><h2>Потребление газа по отраслям (три страны), млрд куб. м</h2><div id="tb-ca-sect" class="chart mid"></div></article>
+    <article class="card s12"><h2>Добыча и потребление по странам</h2><div id="tb-ca-table2" class="tbl-scroll"></div></article>
+  </div>
+</section>
+
+<!-- ============ СПГ-КОНТРАКТЫ ============ -->
+<section class="panel" id="panel-lng">
+  <div class="grid">
+    <article class="card s5"><h2>Экспорт СПГ по проектам, млн т</h2><div id="tb-lng-chart" class="chart mid"></div></article>
+    <article class="card s7">
+      <h2>СПГ-контракты</h2>
+      <div class="inline-filter">
+        Проект <select id="f-lng-project"></select>
+        Регион покупателя <select id="f-lng-region"></select>
+      </div>
+      <div id="tb-lng-table" class="tbl-scroll"></div>
+    </article>
+  </div>
+</section>
+
+<!-- ============ ЦЕНЫ ============ -->
+<section class="panel" id="panel-prices">
+  <div class="grid">
+    <article class="card s6"><h2>Трубопроводный газ, USD/тыс. куб. м</h2><div id="tb-pr-pipe" class="chart tall"></div></article>
+    <article class="card s6"><h2>СПГ, USD/т</h2><div id="tb-pr-lng" class="chart tall"></div></article>
+    <article class="card s12"><h2>Контрактные цены по сегментам (прогноз выделен)</h2><div id="tb-pr-table" class="tbl-scroll"></div></article>
+  </div>
+</section>
+</main>
+
+<div id="tip" class="tip" hidden></div>
+
+<footer>
+  Демо-данные агрегированы из открытых источников и носят иллюстративный характер; могут отличаться от внутрикорпоративной отчётности
+</footer>
+</div>
+</div>
+
+<script src="vendor/echarts.min.js"></script>
+<script src="vendor/xlsx.full.min.js"></script>
+<script src="js/config.js"></script>
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

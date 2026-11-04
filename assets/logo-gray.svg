@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Газовый горизонт">
+  <defs>
+    <linearGradient id="fl" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#0f3a6e"/><stop offset="1" stop-color="#2f86d6"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="#dfe3e9"/>
+  <path d="M32 8c1.5 8-1 14-5 18 .3-3-.6-6-2.6-8.6C25.6 25 17 28 17 39a15 15 0 0 0 30 0c0-9-6-14-9.500-19.500C35.500 16 33.500 12 32 8z" fill="url(#fl)"/>
+  <path d="M32 31c4 4 7 7.500 7 11a7 7 0 0 1-14 0c0-3.500 3-6 4.500-8 .8 1.500 1.500 2.500 2.500 3 .2-2.200.2-4 0-6z" fill="#dfe3e9"/>
+  <path d="M9 53.500h46" stroke="#12263f" stroke-width="3" stroke-linecap="round"/>
+  <path d="M15 58.500h34" stroke="#12263f" stroke-width="2" stroke-linecap="round" opacity=".45"/>
+</svg>
